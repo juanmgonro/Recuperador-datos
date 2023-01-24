@@ -1,28 +1,15 @@
 console.log("Recuperar datos");
 
 const obtenerDatosUsuarios = (url = "https://reqres.in/api/users?delay=3") => {
-    return fetch(url)
-        .then(response => response.json())
-        .then(users => users.data)
-        .catch(error => {
-            console.log(error);
-        })
-}
-
-const borrarMemoriaLocal = (delay) => {
-    //Funcion asincrona
-    setTimeout(() => localStorage.removeItem("savedUsers"), delay);
-}
-
-async function guardarDatosUsuarios() {
-    const datosUsuarios = await obtenerDatosUsuarios();
-    const carousel = document.getElementById("carousel");
-    localStorage.setItem("savedUsers", JSON.stringify(datosUsuarios));
-    borrarMemoriaLocal(10000);
-    const datos = JSON.parse(localStorage.getItem("savedUsers"));
-    for (let index = 0; index < datos.length; index++) {
-        carousel.innerHTML +=
-            `            </div>
+    fetch(url)
+        .then(response => { return response.json() })
+        .then(users => {
+            const carousel = document.getElementById("carousel");
+            localStorage.setItem("savedUsers", JSON.stringify(users.data));
+            const datos = JSON.parse(localStorage.getItem("savedUsers"));
+            for (let index = 0; index < datos.length; index++) {
+                carousel.innerHTML +=
+                    `            </div>
                <div class="carousel-item">
                    <div class="row ">
                        <div class="col-4 text-center">
@@ -38,6 +25,13 @@ async function guardarDatosUsuarios() {
                        </div>
                    </div>
                </div>`;
-    }
-    //while()
+            }
+        })
+
+        .catch(error => {
+            console.log(error);
+        })
 }
+
+
+
