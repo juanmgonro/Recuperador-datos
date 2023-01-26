@@ -1,8 +1,10 @@
-
-
+/** Funcion para utilizar api fetch y tomar los datos de la pagina
+ * 
+ * @param {*} url api donde tomaremos los datos
+ */
 
 const obtenerDatosUsuarios = (url = "https://reqres.in/api/users?delay=3") => {
-let caducidadFecha = localStorage.getItem("fecha-termino")
+let caducidadFecha = localStorage.getItem("fecha-termino");
     if (Object.is(null, caducidadFecha) || (new Date().getTime() > caducidadFecha)) {
 
         fetch(url)
@@ -21,10 +23,13 @@ let caducidadFecha = localStorage.getItem("fecha-termino")
         imprimirDatos();
     }
 }
-
+/**
+ * Funcion que toma los datos de la memoria local y los imprime en el html
+ */
 function imprimirDatos() {
     const carousel = document.getElementById("carousel");
     const datos = JSON.parse(localStorage.getItem("savedUsers"));
+    carousel.innerHTML="";
     for (let index = 0; index < datos.length; index++) {
         if (index == 0) {
             carousel.innerHTML +=
